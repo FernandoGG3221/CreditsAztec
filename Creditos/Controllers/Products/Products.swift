@@ -50,7 +50,7 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBAction func changeOptionProduct(_ sender: Any) {
         segmentedOptions()
         tableViewProducts.reloadData()
-        
+        recoveryData()
     }
     
     //Reglas de negocio
@@ -83,7 +83,7 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
                     newObj.setValue(Double(money!), forKey: "precio")
                     try context?.save()
                     edtClears()
-                    
+                    tableViewProducts.reloadData()
                     print("Añadiendo producto a la bd")
                     btnAdd.isEnabled = false
                     
@@ -121,7 +121,7 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
         
         configureBtns()
-        
+        recoveryData()
     }
     
     func edtClears(){
@@ -150,8 +150,6 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
             if let heigth = heigtView{
                 viewTableProducts.frame.size.height = heigth
             }
-            
-            recoveryData()
             
         }else if optionsProducts.selectedSegmentIndex == 1{
             print("Opcinones de eliminar productos")
@@ -228,8 +226,6 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
             edtMoney.text = "\(arr[2])"
             
             
-            recoveryData()
-            
         }
         //  Se encuentra en el menu de eliminar
         else if optionsProducts.selectedSegmentIndex == 1{
@@ -275,11 +271,15 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
         
         recoveryData()
+        
     }
     
     
     
     func recoveryData(){
+        
+        tableViewProducts.reloadData()
+        
         context = getContextCoreData()
         
         let requestSerarch = NSFetchRequest<NSFetchRequestResult>(entityName: "ModelProducts")
@@ -305,7 +305,7 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
             print(err.localizedDescription)
         }
         
-        tableViewProducts.reloadData()
+        
     }
     
 }
