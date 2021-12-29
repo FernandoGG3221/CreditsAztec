@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="21C52" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ModelCredits" representedClassName="ModelCredits" syncable="YES" codeGenerationType="class"/>
+    <entity name="ModelPlazos" representedClassName="ModelPlazos" syncable="YES" codeGenerationType="class">
+        <attribute name="interesNormal" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="interesPuntual" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="semanas" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="sku" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ModelProducts"/>
+    </entity>
+    <entity name="ModelProducts" representedClassName="ModelProducts" syncable="YES" codeGenerationType="class">
+        <attribute name="nombre" optional="YES" attributeType="String"/>
+        <attribute name="precio" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="sku" optional="YES" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="ModelCredits" positionX="-36" positionY="36" width="128" height="29"/>
+        <element name="ModelPlazos" positionX="-54" positionY="18" width="128" height="89"/>
+        <element name="ModelProducts" positionX="-63" positionY="-18" width="128" height="74"/>
+    </elements>
+</model>
