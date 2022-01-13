@@ -83,9 +83,10 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
                     newObj.setValue(Double(money!), forKey: "precio")
                     try context?.save()
                     edtClears()
-                    tableViewProducts.reloadData()
+                    
                     print("Añadiendo producto a la bd")
                     btnAdd.isEnabled = false
+                    recoveryData()
                     
                 }
                 
@@ -94,13 +95,16 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 print(err.localizedDescription)
             }
             
+            
+            
         }
         
-        recoveryData()
+        
         
     }
     
     @IBAction func btnEdit(_ sender: UIButton) {
+        
         
         let entity = arrData[indexList] as! NSManagedObject
         
@@ -116,12 +120,13 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
             try context?.save()
             print("Actualizando datos")
             edtClears()
+            recoveryData()
         }catch let err{
             print(err.localizedDescription)
         }
-        
         configureBtns()
-        recoveryData()
+        //recoveryData()
+        
     }
     
     func edtClears(){
@@ -196,7 +201,7 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return arrData.count
+        return arrProducts.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -278,11 +283,11 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func recoveryData(){
         
-        tableViewProducts.reloadData()
-        
         context = getContextCoreData()
         
         let requestSerarch = NSFetchRequest<NSFetchRequestResult>(entityName: "ModelProducts")
+        
+        arrProducts = []
         
         do{
             
@@ -298,13 +303,15 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
                 arrProducts.append([sku, name, money])
                 
+                
             }
-            //print(arrProducts)
+            
+            tableViewProducts.reloadData()
+
         }catch let err{
             print("Error al cargar los datos en el array")
             print(err.localizedDescription)
         }
-        
         
     }
     
