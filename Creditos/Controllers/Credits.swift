@@ -9,14 +9,16 @@ import UIKit
 import CoreData
 
 
-class Credits: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class Credits: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
-    //Instancias de UI
+    //MARK: - Outlets
     @IBOutlet weak var tableProducts: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     //Variables
     var arrData = [Any]()
     var arrProducts = [[Any]]()
+    var arrFilter = [[Any]]()
     weak var context:NSManagedObjectContext?
     
     
@@ -25,17 +27,18 @@ class Credits: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         configureTable()
         recoveryData()
-        
+        arrFilter = arrProducts
     }
     
     func configureTable(){
         tableProducts.delegate = self
         tableProducts.dataSource = self
         tableProducts.register(ListTableCell.nib(), forCellReuseIdentifier: ListTableCell.idCell)
+        searchBar.delegate = self
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return arrData.count
+        return arrFilter.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -43,7 +46,7 @@ class Credits: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let index = indexPath.row
         let cell = tableView.dequeueReusableCell(withIdentifier: ListTableCell.idCell, for: indexPath) as! ListTableCell
         
-        let array = arrProducts[index]
+        let array = arrFilter[index]
         
         cell.configureCell([array])
         
@@ -53,7 +56,7 @@ class Credits: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let index = indexPath.row
-        let array = arrProducts[index]
+        let array = arrFilter[index]
         
         self.performSegue(withIdentifier: "transCotizacion", sender: array)
     }
@@ -65,7 +68,10 @@ class Credits: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
 
     func recoveryData(){
+        
         context = getContextCoreData()
+        
+        arrProducts = []
         
         let requestSearch = NSFetchRequest<NSFetchRequestResult>(entityName: "ModelProducts")
         
@@ -83,10 +89,45 @@ class Credits: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
             }
             
+            arrFilter = arrProducts
             
         }catch let err{
             print(err.localizedDescription)
         }
+        
+    }
+    
+    //MARK: - SearchBar
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        arrFilter = []
+        
+        if searchText == ""{
+            arrFilter = arrProducts
+            tableProducts.reloadData()
+        }else{
+            print("Arreglo de productos",arrFilter)
+            
+            for i in arrProducts{
+                print(i)
+                let sku = i[0] as! String
+                let product = i[1] as! String
+                   
+                if  sku.lowercased().contains(searchText.lowercased())
+                    ||
+                    product.lowercased().contains(searchText.lowercased())
+                {
+                    print("\nProductos en existencia")
+                    print("sku",sku)
+                    print("product", product)
+                    arrFilter.append(i)
+                    tableProducts.reloadData()
+                    print(i)
+                }else{
+                    print("No se encuentran en existencia")
+                }
+            }
+        }
+        
     }
     
 }

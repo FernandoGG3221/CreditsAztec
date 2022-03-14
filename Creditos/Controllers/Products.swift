@@ -45,24 +45,28 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
         configureBtns()
         configureTable()
         recoveryData()
+        setUpTarget()
     }
 
     @IBAction func changeOptionProduct(_ sender: Any) {
         segmentedOptions()
         tableViewProducts.reloadData()
-        
+        recoveryData()
+    }
+    
+    
+    func setUpTarget(){
+        edtSKU.addTarget(self, action: #selector(self.validateFields), for: .editingChanged)
+        edtName.addTarget(self, action: #selector(self.validateFields), for: .editingChanged)
+        edtMoney.addTarget(self, action: #selector(self.validateFields), for: .editingChanged)
+    }
+    
+    
+    @objc func validateFields(){
+        btnAdd.isEnabled = edtSKU.text != "" && edtName.text != "" && edtMoney.text != ""
     }
     
     //Reglas de negocio
-    @IBAction func showBtnAdd(_ sender: Any) {
-        DispatchQueue.main.async {
-            if self.edtSKU.text != String() && self.edtName.text != String() && self.edtMoney.text != String(){
-                self.btnAdd.isEnabled = true
-            }else{
-                self.btnAdd.isEnabled = false
-            }
-        }
-    }
     
     @IBAction func btnAddProduct(_ sender: UIButton) {
         
@@ -86,6 +90,7 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
                     
                     print("Añadiendo producto a la bd")
                     btnAdd.isEnabled = false
+                    recoveryData()
                     
                 }
                 
@@ -94,13 +99,16 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 print(err.localizedDescription)
             }
             
+            
+            
         }
         
-        recoveryData()
+        
         
     }
     
     @IBAction func btnEdit(_ sender: UIButton) {
+        
         
         let entity = arrData[indexList] as! NSManagedObject
         
@@ -116,11 +124,12 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
             try context?.save()
             print("Actualizando datos")
             edtClears()
+            recoveryData()
         }catch let err{
             print(err.localizedDescription)
         }
-        
         configureBtns()
+        //recoveryData()
         
     }
     
@@ -150,8 +159,6 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
             if let heigth = heigtView{
                 viewTableProducts.frame.size.height = heigth
             }
-            
-            recoveryData()
             
         }else if optionsProducts.selectedSegmentIndex == 1{
             print("Opcinones de eliminar productos")
@@ -198,7 +205,7 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return arrData.count
+        return arrProducts.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -214,7 +221,7 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        btnAdd.isEnabled = false
         //Solo permite editar en la lista
         if optionsProducts.selectedSegmentIndex == 0{
             print("Editando opciones")
@@ -227,8 +234,6 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
             edtName.text = "\(arr[1])"
             edtMoney.text = "\(arr[2])"
             
-            
-            recoveryData()
             
         }
         //  Se encuentra en el menu de eliminar
@@ -275,14 +280,18 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
         
         recoveryData()
+        
     }
     
     
     
     func recoveryData(){
+        
         context = getContextCoreData()
         
         let requestSerarch = NSFetchRequest<NSFetchRequestResult>(entityName: "ModelProducts")
+        
+        arrProducts = []
         
         do{
             
@@ -298,14 +307,20 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
                 arrProducts.append([sku, name, money])
                 
+                
             }
-            //print(arrProducts)
+            
+            tableViewProducts.reloadData()
+
         }catch let err{
             print("Error al cargar los datos en el array")
             print(err.localizedDescription)
         }
         
-        tableViewProducts.reloadData()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
 }

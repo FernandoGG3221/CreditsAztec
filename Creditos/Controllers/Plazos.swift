@@ -25,6 +25,7 @@ class Plazos: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
         super.viewDidLoad()
         btnAdd.isEnabled = false
         configurePickerView()
+        setUpTarget()
     }
     
     func configurePickerView(){
@@ -82,11 +83,18 @@ class Plazos: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
         edtNormal.text = "\(Double(week) * normal)"
         edtPuntual.text = "\(Double(week) * puntual)"
         
-        enableBtnAdd()
+        validateFields()
     }
     
-    @IBAction func edtText(_ sender: Any) {
-        enableBtnAdd()
+    func setUpTarget(){
+        edtWeek.addTarget(self, action: #selector(self.validateFields), for: .editingChanged)
+        edtNormal.addTarget(self, action: #selector(self.validateFields), for: .editingChanged)
+        edtPuntual.addTarget(self, action: #selector(self.validateFields), for: .editingChanged)
+    }
+    
+    
+    @objc func validateFields(){
+        btnAdd.isEnabled = edtWeek.text != "" && edtNormal.text != "" && edtPuntual.text != ""
     }
     
     @IBAction func btnAdd(_ sender: Any) {
@@ -115,7 +123,7 @@ class Plazos: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
                     clearText()
                     
                     print("Añadiendo productos a la bd")
-                    enableBtnAdd()
+                    validateFields()
                     
                 }
                 
@@ -127,18 +135,16 @@ class Plazos: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
         
     }
     
-    func enableBtnAdd(){
-        if edtWeek.text != String() && edtNormal.text != String() && edtPuntual.text != String(){
-            btnAdd.isEnabled = true
-        }else{
-            btnAdd.isEnabled = false
-        }
-    }
+    
     
     func clearText(){
         edtWeek.text = ""
         edtNormal.text = ""
         edtPuntual.text = ""
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
 }
