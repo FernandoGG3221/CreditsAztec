@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		C152A67B277A66B100D5D938 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C152A67A277A66B100D5D938 /* AppDelegate.swift */; };
 		C152A67D277A66B100D5D938 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C152A67C277A66B100D5D938 /* SceneDelegate.swift */; };
-		C152A67F277A66B100D5D938 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C152A67E277A66B100D5D938 /* ViewController.swift */; };
 		C152A682277A66B100D5D938 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C152A680277A66B100D5D938 /* Main.storyboard */; };
 		C152A685277A66B100D5D938 /* Creditos.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C152A683277A66B100D5D938 /* Creditos.xcdatamodeld */; };
 		C152A687277A66B300D5D938 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C152A686277A66B300D5D938 /* Assets.xcassets */; };
@@ -33,7 +32,6 @@
 		C152A677277A66B100D5D938 /* Creditos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Creditos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C152A67A277A66B100D5D938 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C152A67C277A66B100D5D938 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C152A67E277A66B100D5D938 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C152A681277A66B100D5D938 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C152A684277A66B100D5D938 /* Creditos.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Creditos.xcdatamodel; sourceTree = "<group>"; };
 		C152A686277A66B300D5D938 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -65,6 +63,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C110968827DF9878007EA5DC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C152A680277A66B100D5D938 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		C152A66E277A66B100D5D938 = {
 			isa = PBXGroup;
 			children = (
@@ -87,10 +93,9 @@
 				C152A69E277A900A00D5D938 /* TableCell */,
 				C152A69B277A72BF00D5D938 /* CoreDataExtension */,
 				C152A691277A6BAE00D5D938 /* Controllers */,
+				C110968827DF9878007EA5DC /* View */,
 				C152A67A277A66B100D5D938 /* AppDelegate.swift */,
 				C152A67C277A66B100D5D938 /* SceneDelegate.swift */,
-				C152A67E277A66B100D5D938 /* ViewController.swift */,
-				C152A680277A66B100D5D938 /* Main.storyboard */,
 				C152A686277A66B300D5D938 /* Assets.xcassets */,
 				C152A688277A66B300D5D938 /* LaunchScreen.storyboard */,
 				C152A68B277A66B300D5D938 /* Info.plist */,
@@ -102,39 +107,15 @@
 		C152A691277A6BAE00D5D938 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				C189C07B277BD4DA00ADE665 /* CreditPlazos */,
-				C189C076277BC9E600ADE665 /* Detail */,
-				C189C073277BBE6D00ADE665 /* Adapters */,
+				C189C07C277BD51B00ADE665 /* CreditPlazos.swift */,
+				C189C079277BCA3B00ADE665 /* Detail.swift */,
+				C189C074277BBE8900ADE665 /* ModalAdapter.swift */,
+				C152A699277A6CE900D5D938 /* Credits.swift */,
+				C152A697277A6CCD00D5D938 /* Plazos.swift */,
+				C152A695277A6C8F00D5D938 /* Products.swift */,
 				C189C06E277BAFFA00ADE665 /* Modal */,
-				C152A694277A6C6700D5D938 /* Credits */,
-				C152A693277A6BF900D5D938 /* Plazos */,
-				C152A692277A6BB700D5D938 /* Products */,
 			);
 			path = Controllers;
-			sourceTree = "<group>";
-		};
-		C152A692277A6BB700D5D938 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C152A695277A6C8F00D5D938 /* Products.swift */,
-			);
-			path = Products;
-			sourceTree = "<group>";
-		};
-		C152A693277A6BF900D5D938 /* Plazos */ = {
-			isa = PBXGroup;
-			children = (
-				C152A697277A6CCD00D5D938 /* Plazos.swift */,
-			);
-			path = Plazos;
-			sourceTree = "<group>";
-		};
-		C152A694277A6C6700D5D938 /* Credits */ = {
-			isa = PBXGroup;
-			children = (
-				C152A699277A6CE900D5D938 /* Credits.swift */,
-			);
-			path = Credits;
 			sourceTree = "<group>";
 		};
 		C152A69B277A72BF00D5D938 /* CoreDataExtension */ = {
@@ -179,30 +160,6 @@
 				C189C071277BB7A500ADE665 /* ModalListController.swift */,
 			);
 			path = Modal;
-			sourceTree = "<group>";
-		};
-		C189C073277BBE6D00ADE665 /* Adapters */ = {
-			isa = PBXGroup;
-			children = (
-				C189C074277BBE8900ADE665 /* ModalAdapter.swift */,
-			);
-			path = Adapters;
-			sourceTree = "<group>";
-		};
-		C189C076277BC9E600ADE665 /* Detail */ = {
-			isa = PBXGroup;
-			children = (
-				C189C079277BCA3B00ADE665 /* Detail.swift */,
-			);
-			path = Detail;
-			sourceTree = "<group>";
-		};
-		C189C07B277BD4DA00ADE665 /* CreditPlazos */ = {
-			isa = PBXGroup;
-			children = (
-				C189C07C277BD51B00ADE665 /* CreditPlazos.swift */,
-			);
-			path = CreditPlazos;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,7 +240,6 @@
 				C152A698277A6CCD00D5D938 /* Plazos.swift in Sources */,
 				C152A6A5277AA66B00D5D938 /* ListTableCell.swift in Sources */,
 				C189C07D277BD51B00ADE665 /* CreditPlazos.swift in Sources */,
-				C152A67F277A66B100D5D938 /* ViewController.swift in Sources */,
 				C152A69D277A72D600D5D938 /* CoreDataExtension.swift in Sources */,
 				C152A67B277A66B100D5D938 /* AppDelegate.swift in Sources */,
 				C189C072277BB7A600ADE665 /* ModalListController.swift in Sources */,

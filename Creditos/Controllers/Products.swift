@@ -45,6 +45,7 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
         configureBtns()
         configureTable()
         recoveryData()
+        setUpTarget()
     }
 
     @IBAction func changeOptionProduct(_ sender: Any) {
@@ -53,16 +54,19 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
         recoveryData()
     }
     
-    //Reglas de negocio
-    @IBAction func showBtnAdd(_ sender: Any) {
-        DispatchQueue.main.async {
-            if self.edtSKU.text != String() && self.edtName.text != String() && self.edtMoney.text != String(){
-                self.btnAdd.isEnabled = true
-            }else{
-                self.btnAdd.isEnabled = false
-            }
-        }
+    
+    func setUpTarget(){
+        edtSKU.addTarget(self, action: #selector(self.validateFields), for: .editingChanged)
+        edtName.addTarget(self, action: #selector(self.validateFields), for: .editingChanged)
+        edtMoney.addTarget(self, action: #selector(self.validateFields), for: .editingChanged)
     }
+    
+    
+    @objc func validateFields(){
+        btnAdd.isEnabled = edtSKU.text != "" && edtName.text != "" && edtMoney.text != ""
+    }
+    
+    //Reglas de negocio
     
     @IBAction func btnAddProduct(_ sender: UIButton) {
         
@@ -313,6 +317,10 @@ class Products: UIViewController, UITableViewDelegate, UITableViewDataSource {
             print(err.localizedDescription)
         }
         
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
 }
